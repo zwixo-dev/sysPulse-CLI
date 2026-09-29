@@ -24,20 +24,3 @@ function CPU_Usage() {
 }
 
 export {CPU_Model, CPU_SPEED, CPU_Usage};
-
-// const startTrack = CPU_Usage()
-
-// setInterval(() => {
-//     const endTrack = CPU_Usage();
-
-//     // console.log(endTrack.totalIdle - startTrack.totalIdle);
-//     // console.log(endTrack.totalTime - startTrack.totalTime);
-//     const totalIdleDiff = endTrack.totalIdle - startTrack.totalIdle;
-//     const totalTimeDiff = endTrack.totalTime - startTrack.totalTime;
-
-//     console.log(100 - Math.floor((100 * totalIdleDiff) / totalTimeDiff)); 
-
-// }, 1000);
-
-
-// export {CPU_Model, CPU_SPEED};
