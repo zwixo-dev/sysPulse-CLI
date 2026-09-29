@@ -4,9 +4,15 @@ const testNetworkSpeed = new NetworkSpeed();
 
 
 async function getNetworkDownloadSpeed() {
-    const baseUrl = 'https://eu.httpbin.org/stream-bytes/500000';
-    const fileSizeInBytes = 500000;
-    const speed = await testNetworkSpeed.checkDownloadSpeed(baseUrl, fileSizeInBytes);
+    try {
+        const baseUrl = 'https://eu.httpbin.org/stream-bytes/500000';
+        const fileSizeInBytes = 500000;
+        const speed = await testNetworkSpeed.checkDownloadSpeed(baseUrl, fileSizeInBytes);
+        
+        return speed;
+    } catch (error) {
+        console.error("Download test failed:", error.message);
+    }
 }
 
 
@@ -31,4 +37,4 @@ async function getNetworkUploadSpeed() {
 
 }
 
-export { getNetworkUploadSpeed };
+export { getNetworkUploadSpeed, getNetworkDownloadSpeed};
