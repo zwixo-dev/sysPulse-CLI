@@ -1,6 +1,6 @@
 import { CPU_Model, CPU_SPEED, CPU_Usage } from "../core/cpu.js";
 import { getFree_Memory, getTotal_memo } from "../core/memory.js";
-import { getNetworkUploadSpeed } from "../core/network.js";
+import { getNetworkUploadSpeed, getNetworkDownloadSpeed} from "../core/network.js";
 import { diskSpace } from "../core/disk.js";
 import ansiColors from "ansi-colors";
 
@@ -20,8 +20,9 @@ function cpuTracking() {
 
 setInterval(async() => {
     // wait until i get the network data :)
-    const networkSpeedTest = await getNetworkUploadSpeed();
-    
+    const networkUploadSpeed = await getNetworkUploadSpeed();
+    const networkDownloadSpeed = await getNetworkDownloadSpeed();
+
     // process.stdout.write("\x1b[5A\x1b[0G");
     process.stdout.write("\x1b[H");
     // 
@@ -32,9 +33,18 @@ setInterval(async() => {
     process.stdout.write(`\x1b[K${ansiColors.bold("Disk:")} T ${ansiColors.green(`${diskSpace.totalSpace} GB`)} | F ${ansiColors.green(`${diskSpace.freeSpace} GB`)} | U ${ansiColors.green(`${diskSpace.usedSpace} GB`)}\n`);
 
     // network infos 
-    if(networkSpeedTest && Object.keys(networkSpeedTest).length === 3){
-        process.stdout.write(`\x1b[K${ansiColors.bold("Network:")} ${ansiColors.cyan(`${networkSpeedTest.bps}bps | ${networkSpeedTest.kbps}kbps | ${networkSpeedTest.mbps}mbps`)}\n`);
+    // upload
+    if(networkUploadSpeed && Object.keys(networkUploadSpeed).length === 3){
+        process.stdout.write(`\x1b[K${ansiColors.bold("Network Upload:")} ${ansiColors.cyan(`${networkUploadSpeed.bps}bps | ${networkUploadSpeed.kbps}kbps | ${networkUploadSpeed.mbps}mbps`)}\n`);
     }else{
-        process.stdout.write(`\x1b[K${ansiColors.bold("Network:")} ${ansiColors.red("loading...!")}\n`);
+        process.stdout.write(`\x1b[K${ansiColors.bold("Network Upload:")} ${ansiColors.red("loading...!")}\n`);
     }
+    // download
+    if(networkDownloadSpeed && Object.keys(networkDownloadSpeed).length === 3){
+        process.stdout.write(`\x1b[K${ansiColors.bold("Network Download:")} ${ansiColors.cyan(`${networkDownloadSpeed.bps}bps | ${networkDownloadSpeed.kbps}kbps | ${networkDownloadSpeed.mbps}mbps`)}\n`);
+    }else{
+        process.stdout.write(`\x1b[K${ansiColors.bold("Network Dowload:")} ${ansiColors.red("loading...!")}\n`);
+    }
+
+
 }, 1000);
